@@ -1,14 +1,10 @@
 from fastapi import FastAPI,HTTPException,File,UploadFile,Form,Depends
-from src.schema import Posts
 from src.db import create_db_and_tables,get_session,Post
 from sqlalchemy.ext.asyncio import AsyncSession
 from contextlib import asynccontextmanager
 from sqlalchemy.future import select
 from src.images import imagekit
-import shutil
-import os
 import uuid
-import tempfile
 
 
 @asynccontextmanager
@@ -73,3 +69,17 @@ async def get_feed(session: AsyncSession = Depends(get_session)):
             "created_at": post.created_at.isoformat()
         })
     return posts_data
+
+@app.delete("/posts/{post_id}")
+async def delete_post(post_id: str, session: AsyncSession = Depends(get_session)):
+    try:
+        post_id = uuid.UUID(post_id)
+        result = await session.execute(select(Post).where(Post.id == post_id))
+        post = result.scalar_one_or_none()
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        await session.delete(post)
+        await session.commit()
+        return {"detail": "Post deleted successfully"}
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid post ID")

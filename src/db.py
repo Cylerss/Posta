@@ -2,16 +2,18 @@ from collections.abc import AsyncGenerator
 import datetime
 from datetime import timezone
 import uuid
-
+from dotenv import load_dotenv
 from sqlalchemy import Column, String, Text,DateTime,ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine,async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase, relationship
+import os
 
+load_dotenv()
 class Base(DeclarativeBase):
     pass
 
-DATABASE_URL="postgresql+asyncpg://neondb_owner:npg_xhd2eLPp4MEX@ep-royal-night-adm7va76-pooler.c-2.us-east-1.aws.neon.tech/Testdb"
+DATABASE_URL=os.getenv("POSTGES_URL")
 
 class Post(Base):
     __tablename__ = "posts"
