@@ -5,7 +5,7 @@ import urllib.parse
 import os
 from dotenv import load_dotenv
 
-load_dotenv(os.path.join(os.path.dirname(__file__), "/.env"))
+load_dotenv()
 API_URL = os.getenv("API_URL")
 
 st.set_page_config(page_title="Posta", layout="wide")
