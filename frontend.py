@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-API_URL = os.getenv("API_URL")
+API_URL = os.getenv("APP_URL")
 
 st.set_page_config(page_title="Posta", layout="wide")
 
