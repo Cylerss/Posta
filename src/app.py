@@ -24,7 +24,9 @@ app.include_router(fastapi_users.get_users_router(UserRead, UserUpdate), prefix=
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten later
+    allow_origins=[
+        "https://posta-social.streamlit.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
