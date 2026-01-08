@@ -6,9 +6,14 @@ from sqlalchemy.future import select
 from .images import imagekit
 import uuid
 from .auth.users import current_active_user,auth_backend,fastapi_users
-from .models.schemas import UserRead,PostResponse,PostCreate,UserCreate,UserUpdate
+from .models.schemas import UserRead,UserCreate,UserUpdate
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
+
+API_URL=os.getenv("API_URL")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await create_db_and_tables()
@@ -25,7 +30,7 @@ app.include_router(fastapi_users.get_users_router(UserRead, UserUpdate), prefix=
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://posta-social.streamlit.app"
+        {API_URL}
     ],
     allow_credentials=True,
     allow_methods=["*"],
