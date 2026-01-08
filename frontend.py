@@ -5,8 +5,8 @@ import urllib.parse
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-API_URL = os.getenv("API_URL", "http://localhost:8000")
+load_dotenv(os.path.join(os.path.dirname(__file__), "/.env"))
+API_URL = os.getenv("API_URL")
 
 st.set_page_config(page_title="Posta", layout="wide")
 
@@ -26,6 +26,8 @@ def get_headers():
 
 def login_page():
     st.title("🚀 Welcome to Posta")
+    st.write("API_URL =", API_URL)
+
 
     # Simple form with two buttons
     email = st.text_input("Email:")

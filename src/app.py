@@ -7,7 +7,7 @@ from .images import imagekit
 import uuid
 from .auth.users import current_active_user,auth_backend,fastapi_users
 from .models.schemas import UserRead,PostResponse,PostCreate,UserCreate,UserUpdate
-
+from fastapi.middleware.cors import CORSMiddleware
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -20,7 +20,16 @@ app.include_router(fastapi_users.get_register_router(UserRead,UserCreate), prefi
 app.include_router(fastapi_users.get_reset_password_router(), prefix="/auth", tags=["auth"])
 app.include_router(fastapi_users.get_verify_router(UserRead), prefix="/auth", tags=["auth"])   
 app.include_router(fastapi_users.get_users_router(UserRead, UserUpdate), prefix="/users", tags=["users"])
-                                                             
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # tighten later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+                                                            
 @app.get("/")
 async def read_root():
     return {"Hello": "World"}
