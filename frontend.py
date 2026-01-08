@@ -26,8 +26,6 @@ def get_headers():
 
 def login_page():
     st.title("🚀 Welcome to Posta")
-    st.write("API_URL =", API_URL)
-
 
     # Simple form with two buttons
     email = st.text_input("Email:")
